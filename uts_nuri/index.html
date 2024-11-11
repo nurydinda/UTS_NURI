@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Kabupaten Lombok Barat</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script>
+        // Membuat peta dengan koordinat pusat di Kabupaten Lombok Barat
+        var map = L.map('map').setView([-8.6662193, 115.7503473], 10);
+
+        // Layer peta jalan
+        var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Layer peta satelit
+        const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19,
+            attribution: 'Tiles &copy; Esri'
+        });
+
+        // Layer cluster untuk setiap kategori
+        const clusterCamat = L.markerClusterGroup();
+        const clusterKesehatan = L.markerClusterGroup();
+        const clusterKeamanan = L.markerClusterGroup();
+        const clusterSekolah = L.markerClusterGroup();
+        const clusterWisata = L.markerClusterGroup();
+
+        // Fungsi untuk menambahkan marker ke cluster dengan ikon khusus
+        function addMarkerToCluster(cluster, lat, lng, popupText, iconUrl) {
+            const customIcon = L.icon({
+                iconUrl: iconUrl,
+                iconSize: [30, 40],
+                iconAnchor: [15, 40],
+                popupAnchor: [0, -35]
+            });
+            const marker = L.marker([lat, lng], { icon: customIcon });
+            marker.bindPopup(popupText);
+            cluster.addLayer(marker);
+        }
+
+        // Menambahkan marker cluster kantor camat
+        addMarkerToCluster(clusterCamat,-8.525634, 116.067150, "Kantor Camat batulayar", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.777504, 116.047635, "Kantor Camat sekotong", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.716859655478748, 116.08230821751584, "Kantor Camat lembar", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.679867898003218, 116.1295150942269, "Kantor Camat gerung", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.66815873644333, 116.1695121951856, "Kantor Camat kuripan", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.540341, 116.100558, "Kantor Camat gunungsari", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.635079, 116.149424, "Kantor Camat kediri", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.635539, 116.123147, "Kantor Camat labuapi", "assets/images/camat.png");
+        addMarkerToCluster(clusterCamat,-8.573550, 116.182060, "Kantor Camat lingsar", "assets/images/camat.png");
+
+        //marker cluster kesehatan
+        addMarkerToCluster(clusterKesehatan, -8.567287723475824, 116.20005057605519, "Puskesmas lingsar", "assets/images/kesehatan.png");
+        addMarkerToCluster(clusterKesehatan, -8.67699777531967, 116.12852550710969, "rumah sakit umum daerah patut patju", "assets/images/kesehatan.png");
+        addMarkerToCluster(clusterKesehatan, -8.563982710588354, 116.15303565597218, "Puskesmas sigerongan", "/assets/images/kesehatan.png");
+        addMarkerToCluster(clusterKesehatan, -8.568169055146022, 116.18222501349781, "Puskesmas pembantu lingsar", "/assets/images/kesehatan.png");
+
+
+        //marker keamanan
+        addMarkerToCluster(clusterKeamanan, -8.638691218636277, 116.10234618029631, "polsek labuapi", "assets/images/keamanan.png");
+        addMarkerToCluster(clusterKeamanan,-8.681541542175244, 116.1248338189941, "polsek gerung", "assets/images/keamanan.png");
+        addMarkerToCluster(clusterKeamanan, -8.729784867941799, 116.08633786481208, "Kantor Polisi sektor lembar", "assets/images/keamanan.png");
+        addMarkerToCluster(clusterKeamanan,-8.593405645689982, 116.19739276333027, "polsek narmada", "assets/images/keamanan.png");
+
+        //marker pendidikan
+        addMarkerToCluster(clusterSekolah,-8.77564140007199, 116.04985967374027, "SDN 1 sekotong tengah", "assets/images/pendidikan.png");
+        addMarkerToCluster(clusterSekolah,-8.77741061281111, 116.04806949469086, "SMPN 1 sekotong", "assets/images/pendidikan.png");
+        addMarkerToCluster(clusterSekolah,-8.837205042670412, 116.09640420200277, "yayasan darul habib bintaur", "assets/images/pendidikan.png");
+        addMarkerToCluster(clusterSekolah,-8.752110064241315, 116.08387298404018, "SDI tarbiatul ulum", "assets/images/pendidikan.png");
+
+        //marker wisata
+        addMarkerToCluster(clusterWisata,-8.76526905347956, 116.05223875907218, "ekowisata mangkove bagek kembar", "assets/images/wisata.png");
+        addMarkerToCluster(clusterWisata,-8.76315921595951, 116.0467437196394, "mangrove sekotong tengah", "assets/images/wisata.png");
+        addMarkerToCluster(clusterWisata,-8.744539129288594, 116.06581267457514, "pantai damai sejahtera", "assets/images/wisata.png");
+        addMarkerToCluster(clusterWisata,-8.705325687422361, 116.10615128488384, "bukit batu idung", "assets/images/wisata.png");
+
+        // Layer untuk setiap kecamatan
+        const kecamatanLayers = {
+            "Batulayar": new L.LayerGroup(),
+            "Gerung": new L.LayerGroup(),
+            "Gunungsari": new L.LayerGroup(),
+            "Kediri": new L.LayerGroup(),
+            "Kuripan": new L.LayerGroup(),
+            "Labuapi": new L.LayerGroup(),
+            "Lembar": new L.LayerGroup(),
+            "Lingsar": new L.LayerGroup(),
+            "Narmada": new L.LayerGroup(),
+            "Sekotong": new L.LayerGroup()
+        };
+
+        // Fungsi untuk memuat GeoJSON ke dalam setiap layer kecamatan
+        function loadGeoJsonToLayer(fileName, layerGroup, color) {
+            fetch(fileName)
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: {
+                            color: color,
+                            weight: 2,
+                            fillOpacity: 0.3
+                        }
+                    }).addTo(layerGroup);
+                });
+        }
+
+        // Memuat GeoJSON untuk masing-masing kecamatan dengan warna yang berbeda
+        loadGeoJsonToLayer('batulayar.geojson', kecamatanLayers["Batulayar"], '#ff6666');
+        loadGeoJsonToLayer('gerung.geojson', kecamatanLayers["Gerung"], '#66ff66');
+        loadGeoJsonToLayer('gunungsari.geojson', kecamatanLayers["Gunungsari"], '#6666ff');
+        loadGeoJsonToLayer('kediri.geojson', kecamatanLayers["Kediri"], '#ffcc66');
+        loadGeoJsonToLayer('kuripan.geojson', kecamatanLayers["Kuripan"], '#ff66ff');
+        loadGeoJsonToLayer('labuapi.geojson', kecamatanLayers["Labuapi"], '#66ccff');
+        loadGeoJsonToLayer('lembar.geojson', kecamatanLayers["Lembar"], '#ff6666');
+        loadGeoJsonToLayer('lingsar.geojson', kecamatanLayers["Lingsar"], '#66ff66');
+        loadGeoJsonToLayer('narmada.geojson', kecamatanLayers["Narmada"], '#6666ff');
+        loadGeoJsonToLayer('sekotong.geojson', kecamatanLayers["Sekotong"], '#ffcc66');
+
+        // Layer kontrol untuk peta dasar dan satelit
+        const baseMaps = {
+            "Peta Jalan": osmLayer,
+            "Peta Satelit": satelliteLayer
+        };
+
+        // Overlay untuk kategori dan kecamatan
+        const overlayMaps = {
+            "Kantor Camat": clusterCamat,
+            "Kesehatan": clusterKesehatan,
+            "Keamanan": clusterKeamanan,
+            "Sekolah": clusterSekolah,
+            "Wisata": clusterWisata,
+            "Batulayar": kecamatanLayers["Batulayar"],
+            "Gerung": kecamatanLayers["Gerung"],
+            "Gunungsari": kecamatanLayers["Gunungsari"],
+            "Kediri": kecamatanLayers["Kediri"],
+            "Kuripan": kecamatanLayers["Kuripan"],
+            "Labuapi": kecamatanLayers["Labuapi"],
+            "Lembar": kecamatanLayers["Lembar"],
+            "Lingsar": kecamatanLayers["Lingsar"],
+            "Narmada": kecamatanLayers["Narmada"],
+            "Sekotong": kecamatanLayers["Sekotong"]
+        };
+
+
+        // Fungsi untuk menambahkan marker dan menampilkan koordinat saat peta diklik
+        function onMapClick(e) {
+            const lat = e.latlng.lat.toFixed(6);
+            const lng = e.latlng.lng.toFixed(6);
+
+            // Menambahkan marker di lokasi yang diklik
+            const marker = L.marker([lat, lng]).addTo(map);
+
+            // Menampilkan koordinat dalam popup
+            marker.bindPopup("Koordinat: " + lat + ", " + lng).openPopup();
+        }
+
+        // Event listener untuk klik pada peta
+        map.on('click', onMapClick);
+
+        // Menambahkan kontrol layer ke peta
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
+    </script>
+</body>
+</html>
